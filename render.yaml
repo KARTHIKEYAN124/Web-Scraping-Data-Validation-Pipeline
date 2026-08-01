@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: web-scraping-data-validation-pipeline
+    runtime: static
+    repo: https://github.com/KARTHIKEYAN124/Web-Scraping-Data-Validation-Pipeline
+    branch: main
+    buildCommand: npm install && npm run typecheck
+    staticPublishPath: ./public
+    autoDeployTrigger: commit

@@ -83,6 +83,23 @@ ANYIP_EU_PROXY_URL=http://user:pass@eu-proxy.example.com:8000
 
 The current scraper uses `FetchStrategy` before its Axios request. If a source is over its configured limit, it waits before collecting. After the request, the response is recorded so `429`, `403`, CAPTCHA-like content, and empty responses can trigger cooldown handling.
 
+## Render Deployment
+
+This repository includes `render.yaml` for a Render static site deployment.
+
+Recommended Render settings:
+
+```text
+Service Type: Static Site
+Repository: KARTHIKEYAN124/Web-Scraping-Data-Validation-Pipeline
+Branch: main
+Build Command: npm install && npm run typecheck
+Publish Directory: public
+Auto Deploy: Yes
+```
+
+Render will serve the static overview page from `public/index.html`. The TypeScript scraper remains a local/server-side pipeline that runs with `npm start`.
+
 ## Sample Output
 
 ```text
