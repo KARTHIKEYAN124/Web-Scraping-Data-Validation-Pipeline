@@ -1,39 +1,92 @@
-# Web-Scraping-Data-Validation-Pipeline
-This project demonstrates a real-world backend workflow using TypeScript, where data is scraped from a website, validated, and processed into structured outputs with simulated JIRA ticket generation.
-🚀 Web Scraping & Data Validation Pipeline (TypeScript)
+# Web Scraping Data Validation Pipeline
 
-This project demonstrates a real-world backend workflow using TypeScript, where data is scraped from a website, validated, and processed into structured outputs with simulated JIRA ticket generation.
+A TypeScript backend workflow that scrapes product data from a demo e-commerce website, validates the extracted records, and generates simulated JIRA tickets for invalid data.
 
-📌 Overview
+## Features
 
-The application scrapes product data from a demo e-commerce website and performs validation checks to ensure data quality.
+- Scrapes product title and price data from `books.toscrape.com`.
+- Parses HTML with Cheerio.
+- Validates product records for missing titles and low prices.
+- Logs clean products as valid data.
+- Generates JIRA-style error tickets for invalid products.
+- Includes reusable collection policy support for rate limits, cooldowns, block detection, proxy providers, and geo-specific routes.
+- Includes a static Vercel overview page in `public/index.html`.
 
-✅ Extracts product title and price
-✅ Filters valid products
-❌ Detects invalid products
-📝 Generates JIRA-style error reports
-⚙️ Tech Stack
-TypeScript
-Node.js
-Axios (HTTP requests)
-Cheerio (HTML parsing)
-🔄 Workflow
-Scraping Phase
-Fetch HTML content from books.toscrape.com
-Parse DOM using Cheerio
-Extract product details (title, price)
-Validation Phase
-Check for:
-Missing title
-Price below threshold (< £20)
-Processing Phase
-Valid products → Logged as clean data
-Invalid products → Converted into structured JIRA tickets
-📊 Sample Output
+## Tech Stack
+
+- TypeScript
+- Node.js
+- Axios
+- Cheerio
+- Vercel for static project overview deployment
+
+## Project Structure
+
+```text
+src/
+  config/
+    collectionPolicy.ts
+  services/
+    blockDetector.ts
+    fetchStrategy.ts
+    rateLimiter.ts
+  types/
+    index.ts
+  index.ts
+  jira.ts
+  scraper.ts
+  validator.ts
+public/
+  index.html
+```
+
+## Setup
+
+```bash
+npm install
+```
+
+## Run Locally
+
+```bash
+npm start
+```
+
+PowerShell alternative:
+
+```bash
+.\node_modules\.bin\ts-node.cmd src\index.ts
+```
+
+## Type Check
+
+```bash
+npm run typecheck
+```
+
+PowerShell alternative:
+
+```bash
+.\node_modules\.bin\tsc.cmd --noEmit
+```
+
+## Proxy And Geo Configuration
+
+The project includes anyIP-style policy slots for future collection expansion. Configure them with environment variables when needed:
+
+```bash
+ANYIP_US_PROXY_URL=http://user:pass@us-proxy.example.com:8000
+ANYIP_EU_PROXY_URL=http://user:pass@eu-proxy.example.com:8000
+```
+
+The current scraper still uses direct Axios requests. The `FetchStrategy`, `SourceRateLimiter`, and block detector modules provide the foundation for adding routed HTTP collection without changing validation logic.
+
+## Sample Output
+
+```text
 Scraping website.....
 
 Valid Product: A Light in the Attic
-Valid Product: Tipping the Velvet
 
 ======JIRA TICKET========
 Summary: Invalid product: The Coming Woman
@@ -41,36 +94,4 @@ Description:
  Errors:
 Price is too low (<20)
 ==================
-🧠 Key Features
-🔍 Real-time data scraping
-🧹 Data cleaning and validation
-⚠️ Error handling and reporting
-🧾 JIRA-style ticket simulation
-📦 Modular TypeScript architecture
-🎯 Use Cases
-Backend data pipelines
-Content aggregation systems
-Data quality validation workflows
-ETL (Extract, Transform, Load) processes
-📁 Project Structure
-src/
- ├── index.ts        # Entry point (validation + logging)
- └── scraper.ts      # Scraping logic
-▶️ How to Run
-npm install
-npx ts-node src/index.ts
-💡 Learning Outcomes
-
-This project demonstrates:
-
-How to build a web scraper using TypeScript
-Handling real-world messy data
-Implementing data validation pipelines
-Structuring backend code for scalability
-Simulating production-level error tracking systems
-🔥 Future Improvements
-Add pagination support (scrape multiple pages)
-Store results in a database (MongoDB/PostgreSQL)
-Export data to JSON/CSV
-Integrate real JIRA API
-Add retry & rate-limiting mechanisms
+```
