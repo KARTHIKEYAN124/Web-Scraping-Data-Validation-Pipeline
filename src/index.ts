@@ -9,18 +9,13 @@ async function run() {
     const collectionPolicy = getCollectionPolicy("default");
     const collectionPlan = fetchStrategy.plan(collectionPolicy);
 
-    if (!collectionPlan.allowed) {
-        console.log(`Collection delayed for ${collectionPlan.waitTimeMs}ms`);
-        return;
-    }
-
     console.log("Scraping website.....\n");
     console.log(
         `Collection route: ${collectionPlan.proxyProvider} ${collectionPlan.region}, ` +
             `configured=${collectionPlan.proxyUrlConfigured}\n`
     );
 
-    const products = await scrapeProducts();
+    const products = await scrapeProducts(collectionPolicy, fetchStrategy);
 
     for (const product of products) {
         const errors = validateProduct(product);

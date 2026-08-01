@@ -9,6 +9,8 @@ A TypeScript backend workflow that scrapes product data from a demo e-commerce w
 - Validates product records for missing titles and low prices.
 - Logs clean products as valid data.
 - Generates JIRA-style error tickets for invalid products.
+- Enforces collection policy rate limits before scraper requests.
+- Records HTTP responses for cooldowns and block detection.
 - Includes reusable collection policy support for rate limits, cooldowns, block detection, proxy providers, and geo-specific routes.
 - Includes a static Vercel overview page in `public/index.html`.
 
@@ -79,7 +81,7 @@ ANYIP_US_PROXY_URL=http://user:pass@us-proxy.example.com:8000
 ANYIP_EU_PROXY_URL=http://user:pass@eu-proxy.example.com:8000
 ```
 
-The current scraper still uses direct Axios requests. The `FetchStrategy`, `SourceRateLimiter`, and block detector modules provide the foundation for adding routed HTTP collection without changing validation logic.
+The current scraper uses `FetchStrategy` before its Axios request. If a source is over its configured limit, it waits before collecting. After the request, the response is recorded so `429`, `403`, CAPTCHA-like content, and empty responses can trigger cooldown handling.
 
 ## Sample Output
 
